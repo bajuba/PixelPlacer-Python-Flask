@@ -22,14 +22,15 @@ def home():
   global image_number
   #if the form has not been submitted load the page
   if request.method != 'POST':
-    return render_template("index.html",number=image_number)
+    form_info = {"x":1,"y":1,"color":"green"}
+    return render_template("index.html",number=image_number, form=form_info)
   #if the form has been submitted create the new image and load the page
   else:
     #getting the info from the form
     x = int(request.form['x'])-1
     y = int(request.form['y'])-1
     color = request.form['color']
-
+    form_info = {"x":x+1,"y":y+1,"color":color}
     #creating the image
     im = Image.open(f"static/canvas{image_number}.png").convert('RGB')
     image_number = image_number + 1;
@@ -49,7 +50,7 @@ def home():
       im.save(f"static/history/canvas{image_number}.png", format=None)
     #deleting the old image
     remove(f"static/canvas{image_number-1}.png")  
-    return render_template("index.html",number=image_number)
+    return render_template("index.html",number=image_number,form = form_info)
 
 @app.route('/history')
 def history():
