@@ -5,7 +5,7 @@ from os import remove, listdir
 from re import findall
 
 def cur_pic_num():
-  return int(findall("\d+", listdir("static")[1])[0])
+  return int(findall("\d+", listdir("static")[2])[0])
 def pic_list():
   return listdir("static/history")
 app = Flask('app')
@@ -57,6 +57,6 @@ def history():
   pics = []
   for pic in pic_list():
     pics.append(Image.open(f"static/history/{pic}").convert('RGB'))
-  im.save('static/history/history.gif', save_all=True, append_images=pics, optimize=False, duration=len(pic_list()), loop=0)
+  im.save('static/gif/history.gif', save_all=True, append_images=pics, optimize=False, duration=500, loop=0)
   return render_template("history.html")
 app.run(host='0.0.0.0', port=8080)
