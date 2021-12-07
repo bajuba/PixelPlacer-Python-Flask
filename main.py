@@ -6,6 +6,8 @@ from re import findall
 
 def cur_pic_num():
   return int(findall("\d+", listdir("static")[1])[0])
+def pic_list():
+  return listdir("static/history")
 app = Flask('app')
 # print(listdir("static"))
 #get the number from the image
@@ -43,7 +45,7 @@ def home():
     im.putpixel(coordinate, pixel)
     im.save(f"static/canvas{image_number}.png", format=None)
     #saving every 100 pixel changes
-    if(cur_pic_num() % 100 == 0):
+    if(cur_pic_num() % 5 == 0):
       im.save(f"static/history/canvas{image_number}.png", format=None)
     #deleting the old image
     remove(f"static/canvas{image_number-1}.png")  
@@ -51,5 +53,10 @@ def home():
 
 @app.route('/history')
 def history():
-  x = 1
+  im = Image.new('RGB', (1000, 1000),color=(255,255,255))
+  pics = []
+  for pic in pic_list():
+    pics.append(Image.open(f"static/history/{pic}").convert('RGB'))
+  im.save('static/history/history.gif', save_all=True, append_images=pics, optimize=False, duration=len(pic_list()), loop=0)
+  return render_template("history.html")
 app.run(host='0.0.0.0', port=8080)
