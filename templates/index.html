@@ -6,7 +6,7 @@
 <form action="" method="POST">
 	X Coordinate (1-1000) <input type="number" name="x" min="1" max="1000" value="{{form['x']}}" required></input ><br> 
   Y Coordinate (1-1000) <input type="number" name="y" min="1" max="1000" value="{{form['y']}}" required></input><br>
-	Color <select name="color" id=""><option value="red" {% if form['color'] == 'red' %}selected{% endif %}>Red</option><option value="green" {% if form['color'] == 'green' %}selected{% endif %}>Green</option><option value="blue">Blue</option></select>
+	Color <select name="color" id=""><option value="red" {% if form['color'] == 'red' %}selected{% endif %}>Red</option><option value="green" {% if form['color'] == 'green' %}selected{% endif %}>Green</option><option value="blue" {% if form['color'] == 'blue' %}selected{% endif %}>Blue</option></select>
   <input type="submit">
 <div><a href="/history">History</a>
 <div>{{number}} Pixels Placed</div>
