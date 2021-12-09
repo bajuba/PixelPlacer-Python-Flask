@@ -44,20 +44,23 @@ def home():
     else:
       pixel = (0,0,255)
     im.putpixel(coordinate, pixel)
-    im.save(f"static/canvas{image_number}.png", format=None)
-    #saving every 100 pixel changes
+    
+    #saving every 5 pixel changes
     if(cur_pic_num() % 5 == 0):
-      im.save(f"static/history/canvas{image_number}.png", format=None)
+      history_gif = Image.open('static/gif/history.gif')
+      history_gif.save('static/gif/history.gif', save_all=True, append_images=[im], optimize=False, duration=50, loop=0)
+    #save the new picture
+    im.save(f"static/canvas{image_number}.png", format=None)
     #deleting the old image
     remove(f"static/canvas{image_number-1}.png")  
     return render_template("index.html",number=image_number,form = form_info)
 
 @app.route('/history')
 def history():
-  im = Image.new('RGB', (1000, 1000),color=(255,255,255))
-  pics = []
-  for pic in pic_list():
-    pics.append(Image.open(f"static/history/{pic}").convert('RGB'))
-  im.save('static/gif/history.gif', save_all=True, append_images=pics, optimize=False, duration=500, loop=0)
+  # im = Image.new('RGB', (1000, 1000),color=(255,255,255))
+  # pics = []
+  # for pic in pic_list():
+  #   pics.append(Image.open(f"static/history/{pic}").convert('RGB'))
+  # im.save('static/gif/history.gif', save_all=True, append_images=pics, optimize=False, duration=50, loop=0)
   return render_template("history.html")
 app.run(host='0.0.0.0', port=8080)
